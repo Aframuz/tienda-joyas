@@ -39,6 +39,18 @@ const getJewelById = async (req, res) => {
    const { id } = req.params
    const jewel = await db.getJewelById(+id)
 
+   if (!jewel) {
+      return res.status(404).json({
+         error: {
+            statusCode: 404,
+            errorCode: "NOT_FOUND",
+            message: "Resource not found",
+            devMessage: `Jewel with id ${id} not found`,
+            timestamp: new Date().toISOString(),
+         },
+      })
+   }
+
    const schema = {
       path: req.path,
       qs: req.query,
@@ -102,8 +114,19 @@ const getJewelsv2 = async (req, res) => {
 
 const getJewelByIdv2 = async (req, res) => {
    const { id } = req.params
-
    const jewel = await db.getJewelById(+id)
+
+   if (!jewel) {
+      return res.status(404).json({
+         error: {
+            statusCode: 404,
+            errorCode: "NOT_FOUND",
+            message: "Resource not found",
+            devMessage: `Jewel with id ${id} not found`,
+            timestamp: new Date().toISOString(),
+         },
+      })
+   }
 
    const [jewelv2] = renameKeys([jewel], {
       name: "nombre",
