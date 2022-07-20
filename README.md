@@ -36,5 +36,12 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 
 ## Notas
 
+-  Excesivamente comentado para claridad
 -  Diferencia entre no filtros y filtro mal escrito
 -  Limite de recursos por página es 2 para demostrar paginación
+
+## TODO
+
+-  Separar error segun case en halifyCollection
+-  Limpiar codigo repetido
+-  agregar propiedad por la cual se esta ordenando para mayor claridad
