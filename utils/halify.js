@@ -11,7 +11,7 @@ const halifyCollection = (schema, qs) => {
    }
 
    const offset = (page - 1) * limit
-   const resourcePaged = dataSorted.slice(offset, offset + limit)
+   const resourcePaged = dataSorted.slice(offset, offset + +limit)
 
    const dataHal = singleHalMinified(resourcePaged, name)
 
@@ -28,12 +28,12 @@ const halifyCollection = (schema, qs) => {
          },
          next: {
             href:
-               page < Math.ceil(dataSorted.length / limit)
+               page < Math.ceil(dataSorted.length / +limit)
                   ? `/api/${path}?page=${Number(page) + 1}&limit=${limit}`
                   : null, // URL to next page of resources
          },
          last: {
-            href: `/api/${path}?page=${Math.ceil(dataSorted.length / limit)}&limit=${limit}`, // URL to last page of resources
+            href: `/api/${path}?page=${Math.ceil(dataSorted.length / +limit)}&limit=${limit}`, // URL to last page of resources
          },
       },
       count: resourcePaged.length,
