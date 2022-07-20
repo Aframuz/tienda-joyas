@@ -1,7 +1,9 @@
+// From a collection of resources, format them to a HAL collection
 const halifyCollection = (schema, qs) => {
    const { name, data, path } = schema
    const { page = 1, limit = 2 } = qs
 
+   // Filter and Sort resources
    const dataFiltered = filterByProperty(data, qs)
    const dataSorted = sortByProperty(dataFiltered, qs)
 
@@ -10,11 +12,14 @@ const halifyCollection = (schema, qs) => {
       throw new Error("No resources found for the given query")
    }
 
+   // Paginate resources
    const offset = (page - 1) * limit
    const resourcePaged = dataSorted.slice(offset, offset + +limit)
 
+   // Format resources, stripping unnecessary properties
    const dataHal = singleHalMinified(resourcePaged, name)
 
+   // HAL
    return {
       _links: {
          self: {
@@ -44,6 +49,7 @@ const halifyCollection = (schema, qs) => {
    }
 }
 
+// Format a single resource to a HAL resource
 const singleHalMinified = (collectionPaged, collectionName) => {
    return collectionPaged.map((resource) => {
       const nameProp = Object.keys(resource).includes("name") ? "name" : "nombre"
@@ -60,9 +66,11 @@ const singleHalMinified = (collectionPaged, collectionName) => {
    })
 }
 
+// Filter resources by property in query string
 const filterByProperty = (collection, qs) => {
    const filters = getFilters(qs)
 
+   // If no filters, return collection
    if (filters.length === 0) {
       return collection
    }
@@ -80,9 +88,11 @@ const filterByProperty = (collection, qs) => {
    })
 }
 
+// Get filters from query string
 const getFilters = (qs) => {
    const filters = []
 
+   // Exclude page, limit, and sort fields from filters
    for (const key in qs) {
       if (key !== "page" && key !== "limit" && qs[key] !== "asc" && qs[key] !== "desc") {
          filters.push({
@@ -95,15 +105,18 @@ const getFilters = (qs) => {
    return filters
 }
 
+// Sort resources by property in query string
 const sortByProperty = (collection, qs) => {
    // get first property with value "asc" or "desc"
    const sortBy = Object.keys(qs).find((key) => qs[key] === "asc" || qs[key] === "desc")
    const order = qs[sortBy]
 
+   // If no sort, return collection
    if (!sortBy) {
       return collection
    }
 
+   // If sort is invalid, throw error
    if (!collection[0].hasOwnProperty(sortBy)) {
       throw new Error(`Property ${sortBy} not found`)
    }
@@ -122,6 +135,7 @@ const sortByProperty = (collection, qs) => {
    })
 }
 
+// Create HAL for a single resource
 const singleHal = (resourceSchema) => {
    const { path, qs, name, data } = resourceSchema
    const fields = getFields(Object.keys(data), qs)
@@ -141,6 +155,7 @@ const singleHal = (resourceSchema) => {
    }
 }
 
+// Get fields to add to HAL from query string
 const getFields = (resourceProperties, qs) => {
    if (qs.fields) {
       return Array.from(new Set(["id", ...qs.fields.split(",")]))
@@ -148,15 +163,18 @@ const getFields = (resourceProperties, qs) => {
    return resourceProperties
 }
 
+// Filter properties to show by fields in query string
 const filterByFields = (obj, fields) => {
    const filtered = {}
 
+   // If field is invalid, throw error
    for (const value of fields) {
       if (!obj.hasOwnProperty(value)) {
          throw new Error(`Property ${value} not found`)
       }
    }
 
+   // Add properties to filtered object
    for (const key in obj) {
       if (fields.includes(key)) {
          filtered[key] = obj[key]

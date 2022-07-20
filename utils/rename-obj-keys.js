@@ -1,3 +1,4 @@
+// Take an object and rename its keys.
 const renameKeys = (collection, keySchema) => {
    const newCollection = collection.map((obj) => {
       const newObj = {}
