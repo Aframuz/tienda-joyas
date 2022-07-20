@@ -36,19 +36,35 @@ const getJewels = async (req, res) => {
 }
 
 const getJewelById = async (req, res) => {
-   const collectionName = req.path.split("/").slice(-2)[0]
    const { id } = req.params
    const jewel = await db.getJewelById(+id)
 
-   const hal = halify.singleHal({ jewel }, collectionName)
+   const schema = {
+      path: req.path,
+      qs: req.query,
+      name: "jewel",
+      data: jewel,
+   }
 
-   res.json(hal)
+   try {
+      const hal = halify.singleHal(schema)
+      res.json(hal)
+   } catch (error) {
+      res.status(400).json({
+         error: {
+            statusCode: 400,
+            errorCode: "BAD_REQUEST",
+            message: "Bad request",
+            devMessage: error.message,
+            timestamp: new Date().toISOString(),
+         },
+      })
+   }
 }
 
 const getJewelsByCategory = async (req, res) => {
    const { category } = req.params
    const jewels = await db.getJewelsByCategory(category)
-   console.log(req.path)
 
    const schema = {
       path: req.path,
@@ -85,7 +101,6 @@ const getJewelsv2 = async (req, res) => {
 }
 
 const getJewelByIdv2 = async (req, res) => {
-   const collectionName = req.path.split("/").slice(-2)[0]
    const { id } = req.params
 
    const jewel = await db.getJewelById(+id)
@@ -97,9 +112,27 @@ const getJewelByIdv2 = async (req, res) => {
       value: "valor",
    })
 
-   const hal = halify.singleHal({ jewelv2 }, collectionName)
+   const schema = {
+      path: req.path,
+      qs: req.query,
+      name: "jewel",
+      data: jewelv2,
+   }
 
-   res.json(hal)
+   try {
+      const hal = halify.singleHal(schema)
+      res.json(hal)
+   } catch (error) {
+      res.status(400).json({
+         error: {
+            statusCode: 400,
+            errorCode: "BAD_REQUEST",
+            message: "Bad request",
+            devMessage: error.message,
+            timestamp: new Date().toISOString(),
+         },
+      })
+   }
 }
 /*=============================================
 =                   EXPORTS                   =

@@ -2,7 +2,7 @@ const halifyCollection = (schema, qs) => {
    const { name, data, path } = schema
    const { page = 1, limit = 2 } = qs
 
-   const dataFiltered = filterByQuery(data, qs)
+   const dataFiltered = filterByProperty(data, qs)
 
    if (dataFiltered.length === 0) {
       throw new Error("No resources found for the given query")
@@ -58,21 +58,7 @@ const singleHalMinified = (collectionPaged, collectionName) => {
    })
 }
 
-const singleHal = (resource, collectionName) => {
-   const resourceName = Object.keys(resource)[0]
-   const resourceProperties = resource[resourceName]
-
-   return {
-      _links: {
-         self: {
-            href: `/api/v1/${collectionName}/${resource.id}`,
-         },
-      },
-      [resourceName]: resourceProperties,
-   }
-}
-
-const filterByQuery = (collection, qs) => {
+const filterByProperty = (collection, qs) => {
    const filters = getFilters(qs)
 
    if (filters.length === 0) {
@@ -105,6 +91,50 @@ const getFilters = (qs) => {
    }
 
    return filters
+}
+
+const singleHal = (resourceSchema) => {
+   const { path, qs, name, data } = resourceSchema
+   const fields = getFields(Object.keys(data), qs)
+
+   try {
+      const dataFiltered = filterByFields(data, fields)
+      return {
+         _links: {
+            self: {
+               href: `/api/${path}`,
+            },
+         },
+         [name]: dataFiltered,
+      }
+   } catch (error) {
+      throw new Error(error)
+   }
+}
+
+const getFields = (resourceProperties, qs) => {
+   if (qs.fields) {
+      return Array.from(new Set(["id", ...qs.fields.split(",")]))
+   }
+   return resourceProperties
+}
+
+const filterByFields = (obj, fields) => {
+   const filtered = {}
+
+   for (const value of fields) {
+      if (!obj.hasOwnProperty(value)) {
+         throw new Error(`Property ${value} not found`)
+      }
+   }
+
+   for (const key in obj) {
+      if (fields.includes(key)) {
+         filtered[key] = obj[key]
+      }
+   }
+
+   return filtered
 }
 
 export default {
