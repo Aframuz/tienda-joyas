@@ -11,16 +11,27 @@ import renameKeys from "../utils/rename-obj-keys.js"
 // Get
 const getJewels = async (req, res) => {
    const jewels = await db.getJewels()
-   const { page = 1, limit = 2 } = req.query
+   const qs = req.query
 
    const schema = {
       name: "jewels",
       data: jewels,
    }
 
-   const hal = halify.halifyCollection(schema, page, limit)
-
-   res.json(hal)
+   try {
+      const hal = halify.halifyCollection(schema, qs)
+      res.json(hal)
+   } catch (error) {
+      res.status(400).json({
+         error: {
+            statusCode: 400,
+            errorCode: "BAD_REQUEST",
+            message: "Bad request",
+            devMessage: error.message,
+            timestamp: new Date().toISOString(),
+         },
+      })
+   }
 }
 
 const getJewelById = async (req, res) => {

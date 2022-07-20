@@ -31,3 +31,5 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 3.
 
 ## Notas
+
+-  Diferencia entre no filtros y filtro mal escrito
