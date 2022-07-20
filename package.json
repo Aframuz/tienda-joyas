@@ -1,0 +1,28 @@
+{
+   "name": "tienda_de_joyas",
+   "version": "1.0.0",
+   "description": "Desafio LATAM Modulo 08 Desafio - Tienda de Joyas",
+   "main": "app.js",
+   "type": "module",
+   "scripts": {
+      "start": "node app.js",
+      "dev": "nodemon app.js"
+   },
+   "keywords": [
+      "Javascript",
+      "Node",
+      "Express",
+      "dotenv",
+      "API RESTful",
+      "API Design",
+      "pagination",
+      "HATEOAS",
+      "HAL",
+      "HTTP"
+   ],
+   "author": "Aframuz",
+   "license": "ISC",
+   "dependencies": {
+      "express": "^4.18.1"
+   }
+}
