@@ -26,10 +26,11 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 
 ### Dónde encontrar cada requerimiento
 
-1. `jewel-route.js`, aplicacion de HATEOAS a nivel de controlador mediante `utils/halify`
-2. `jewel-route.js`, se cambia el nombre de las llaves mediante `utils/rename-obj-keys` a nivel de controlador
-3. `jewel-route.js`, handler en API ver.1, ademas se implementa un filtro por categoria usando query strings
-4. `jewel-route.js`, handler en API ver.1, usar query strings para filtrar los campos que se deseen mostrar
+1. `routes/jewel-route.js`, aplicacion de HATEOAS a nivel de controlador mediante `utils/halify`
+2. `routes/jewel-route.js`, se cambia el nombre de las llaves mediante `utils/rename-obj-keys` a nivel de controlador
+3. `routes/jewel-route.js`, handler en API ver.1, ademas se implementa un filtro por categoria usando query strings
+4. `routes/jewel-route.js`, handler en API ver.1, usar query strings para filtrar los campos que se deseen mostrar
+5. `controllers/jewel-controller.js` en handler `getJewelById` en ambas versiones de la API
 
 ## Notas
 
