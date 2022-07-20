@@ -3,13 +3,15 @@ const halifyCollection = (schema, qs) => {
    const { page = 1, limit = 2 } = qs
 
    const dataFiltered = filterByProperty(data, qs)
+   const dataSorted = sortByProperty(dataFiltered, qs)
 
-   if (dataFiltered.length === 0) {
+   // Default error if no data
+   if (dataSorted.length === 0) {
       throw new Error("No resources found for the given query")
    }
 
    const offset = (page - 1) * limit
-   const resourcePaged = dataFiltered.slice(offset, offset + limit)
+   const resourcePaged = dataSorted.slice(offset, offset + limit)
 
    const dataHal = singleHalMinified(resourcePaged, name)
 
@@ -26,16 +28,16 @@ const halifyCollection = (schema, qs) => {
          },
          next: {
             href:
-               page < Math.ceil(dataFiltered.length / limit)
+               page < Math.ceil(dataSorted.length / limit)
                   ? `/api/${path}?page=${Number(page) + 1}&limit=${limit}`
                   : null, // URL to next page of resources
          },
          last: {
-            href: `/api/${path}?page=${Math.ceil(dataFiltered.length / limit)}&limit=${limit}`, // URL to last page of resources
+            href: `/api/${path}?page=${Math.ceil(dataSorted.length / limit)}&limit=${limit}`, // URL to last page of resources
          },
       },
       count: resourcePaged.length,
-      total: dataFiltered.length,
+      total: dataSorted.length,
       _embedded: {
          [name]: dataHal,
       },
@@ -82,7 +84,7 @@ const getFilters = (qs) => {
    const filters = []
 
    for (const key in qs) {
-      if (key !== "page" && key !== "limit") {
+      if (key !== "page" && key !== "limit" && qs[key] !== "asc" && qs[key] !== "desc") {
          filters.push({
             key,
             value: qs[key],
@@ -91,6 +93,33 @@ const getFilters = (qs) => {
    }
 
    return filters
+}
+
+const sortByProperty = (collection, qs) => {
+   // get first property with value "asc" or "desc"
+   const sortBy = Object.keys(qs).find((key) => qs[key] === "asc" || qs[key] === "desc")
+   const order = qs[sortBy]
+
+   if (!sortBy) {
+      return collection
+   }
+
+   if (!collection[0].hasOwnProperty(sortBy)) {
+      throw new Error(`Property ${sortBy} not found`)
+   }
+
+   let orderMult = order === "asc" ? 1 : -1
+   return collection.sort((a, b) => {
+      let result = 0
+
+      if (a[sortBy] < b[sortBy]) {
+         result = -1 * orderMult
+      } else if (a[sortBy] > b[sortBy]) {
+         result = 1 * orderMult
+      }
+
+      return result
+   })
 }
 
 const singleHal = (resourceSchema) => {

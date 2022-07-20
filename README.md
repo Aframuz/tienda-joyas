@@ -31,7 +31,10 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 3. `routes/jewel-route.js`, handler en API ver.1, ademas se implementa un filtro por categoria usando query strings
 4. `routes/jewel-route.js`, handler en API ver.1, usar query strings para filtrar los campos que se deseen mostrar
 5. `controllers/jewel-controller.js` en handler `getJewelById` en ambas versiones de la API
+6. `utils/halify` toma el objeto `req.query` y revisa las propiedades `page` y `limit`, si no las hay utiliza valores por defecto (1 y 2 respectivamente)
+7. `utils/halify` toma el objecto `req.query` y revisa si existe alguna propiedad con el valor de `asc` o `desc`, si es que existe y es válida devuelve el array de objetos ordenados según el campo especificado de lo contrario devuelve un error (400). Para ordenar por el valor usar `values=asc|desc`
 
 ## Notas
 
 -  Diferencia entre no filtros y filtro mal escrito
+-  Limite de recursos por página es 2 para demostrar paginación
