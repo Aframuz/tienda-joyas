@@ -27,6 +27,7 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 ### Dónde encontrar cada requerimiento
 
 1. `jewel-route.js`, aplicacion de HATEOAS a nivel de controlador mediante `utils/halify`
-2.
+2. `jewel-route.js`, se cambia el nombre de las llaves mediante `utils/rename-obj-keys` a nivel de controlador
+3.
 
 ## Notas
