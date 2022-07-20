@@ -14,6 +14,7 @@ const getJewels = async (req, res) => {
    const qs = req.query
 
    const schema = {
+      path: req.path,
       name: "jewels",
       data: jewels,
    }
@@ -44,6 +45,22 @@ const getJewelById = async (req, res) => {
    res.json(hal)
 }
 
+const getJewelsByCategory = async (req, res) => {
+   const { category } = req.params
+   const jewels = await db.getJewelsByCategory(category)
+   console.log(req.path)
+
+   const schema = {
+      path: req.path,
+      name: "jewels",
+      data: jewels,
+   }
+
+   const hal = halify.halifyCollection(schema, req.query)
+
+   res.json(hal)
+}
+
 // API v2
 const getJewelsv2 = async (req, res) => {
    const jewels = await db.getJewels()
@@ -57,6 +74,7 @@ const getJewelsv2 = async (req, res) => {
    })
 
    const schema = {
+      path: req.path,
       name: "jewels",
       data: jewelsv2,
    }
@@ -89,6 +107,7 @@ const getJewelByIdv2 = async (req, res) => {
 export default {
    getJewels,
    getJewelById,
+   getJewelsByCategory,
    getJewelsv2,
    getJewelByIdv2,
 }

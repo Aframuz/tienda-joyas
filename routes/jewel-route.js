@@ -17,6 +17,7 @@ const router = express.Router()
 =============================================*/
 router.route("/v1/jewels").get(jewelCtrl.getJewels)
 router.route("/v1/jewels/:id").get(jewelCtrl.getJewelById)
+router.route("/v1/category/:category").get(jewelCtrl.getJewelsByCategory)
 
 router.route("/v2/jewels").get(jewelCtrl.getJewelsv2)
 router.route("/v2/jewels/:id").get(jewelCtrl.getJewelByIdv2)

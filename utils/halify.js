@@ -1,5 +1,5 @@
 const halifyCollection = (schema, qs) => {
-   const { name, data } = schema
+   const { name, data, path } = schema
    const { page = 1, limit = 2 } = qs
 
    const dataFiltered = filterByQuery(data, qs)
@@ -16,22 +16,22 @@ const halifyCollection = (schema, qs) => {
    return {
       _links: {
          self: {
-            href: `/api/v1/${name}?page=${page}&limit=${limit}`, // URL to this resource
+            href: `/api/${path}?page=${page}&limit=${limit}`, // URL to this resource
          },
          first: {
-            href: `/api/v1/${name}?page=1&limit=${limit}`, // URL to first resource
+            href: `/api/${path}?page=1&limit=${limit}`, // URL to first resource
          },
          prev: {
-            href: page > 1 ? `/api/v1/${name}?page=${page - 1}&limit=${limit}` : null, // URL to previous page of resources
+            href: page > 1 ? `/api/${path}?page=${page - 1}&limit=${limit}` : null, // URL to previous page of resources
          },
          next: {
             href:
                page < Math.ceil(dataFiltered.length / limit)
-                  ? `/api/v1/${name}?page=${Number(page) + 1}&limit=${limit}`
+                  ? `/api/${path}?page=${Number(page) + 1}&limit=${limit}`
                   : null, // URL to next page of resources
          },
          last: {
-            href: `/api/v1/${name}?page=${Math.ceil(dataFiltered.length / limit)}&limit=${limit}`, // URL to last page of resources
+            href: `/api/${path}?page=${Math.ceil(dataFiltered.length / limit)}&limit=${limit}`, // URL to last page of resources
          },
       },
       count: resourcePaged.length,
