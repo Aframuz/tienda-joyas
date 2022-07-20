@@ -26,13 +26,13 @@ En este desafío contarás con un **Apoyo Desafío - Tienda de Joyas**, en donde
 
 ### Dónde encontrar cada requerimiento
 
-1. `routes/jewel-route.js`, aplicacion de HATEOAS a nivel de controlador mediante `utils/halify`
-2. `routes/jewel-route.js`, se cambia el nombre de las llaves mediante `utils/rename-obj-keys` a nivel de controlador
-3. `routes/jewel-route.js`, handler en API ver.1, ademas se implementa un filtro por categoria usando query strings
-4. `routes/jewel-route.js`, handler en API ver.1, usar query strings para filtrar los campos que se deseen mostrar
-5. `controllers/jewel-controller.js` en handler `getJewelById` en ambas versiones de la API
-6. `utils/halify` toma el objeto `req.query` y revisa las propiedades `page` y `limit`, si no las hay utiliza valores por defecto (1 y 2 respectivamente)
-7. `utils/halify` toma el objecto `req.query` y revisa si existe alguna propiedad con el valor de `asc` o `desc`, si es que existe y es válida devuelve el array de objetos ordenados según el campo especificado de lo contrario devuelve un error (400). Para ordenar por el valor usar `values=asc|desc`
+1. `routes/jewel-route.js`, aplicacion de HATEOAS a nivel de controlador mediante `utils/halify` [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/routes/jewel-route.js#L18)
+2. `routes/jewel-route.js`, se cambia el nombre de las llaves mediante `utils/rename-obj-keys` a nivel de controlador [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/routes/jewel-route.js#L22)
+3. `routes/jewel-route.js`, handler en API ver.1, ademas se implementa un filtro por categoria usando query strings [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/routes/jewel-route.js#L20)
+4. `routes/jewel-route.js`, handler en API ver.1, usar query strings para filtrar los campos que se deseen mostrar [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/routes/jewel-route.js#L19)
+5. `controllers/jewel-controller.js` en handler `getJewelById` en ambas versiones de la API [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/controllers/jewel-controller.js#L38)
+6. `utils/halify` toma el objeto `req.query` y revisa las propiedades `page` y `limit`, si no las hay utiliza valores por defecto (1 y 2 respectivamente) [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/utils/halify.js#L13)
+7. `utils/halify` toma el objecto `req.query` y revisa si existe alguna propiedad con el valor de `asc` o `desc`, si es que existe y es válida devuelve el array de objetos ordenados según el campo especificado de lo contrario devuelve un error (400). Para ordenar por el valor usar `values=asc|desc` [link](https://github.com/Aframuz/tienda-joyas/blob/1454aaeb9d73de17c97f4ec75b9ca12e96556acb/utils/halify.js#L98)
 
 ## Notas
 
